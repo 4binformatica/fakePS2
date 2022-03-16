@@ -7,6 +7,7 @@ import java.awt.*;
 public class MainWindow extends JFrame{
 	SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
+    Editor e = new Editor(250, 150, 400, 400);
     MainWindow(){
         this.setBounds(10, 10, 1000, 1000);
         this.setLayout(null);
@@ -34,7 +35,7 @@ public class MainWindow extends JFrame{
         s1.setMin(0);
         s1.setMax(100);
         this.add(s1);
-        
+        this.add(e);
          
     }
 }

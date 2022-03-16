@@ -2,7 +2,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.nio.file.Path;
+import java.awt.image.*;
 
 public class BaseComponent extends JPanel implements MouseListener, MouseMotionListener
 {
@@ -15,6 +24,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     static Color defaultBorderColor1 = Color.white;
     static Color defaultBorderColor2 = Color.darkGray;
     static boolean defaultIsRised = false;
+    static boolean defaultShowImg = false;
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
     
     private Color backgroundColor;
@@ -25,13 +35,18 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     private Color borderColor1;
     private Color borderColor2;
     private boolean isRised;
+    private String imgPath;
+    private boolean showImg;
     
     /* ----------------------------- INTERNAL USAGE ----------------------------- */
     private int width;
     private int height;
     private Rectangle myRect;
     private boolean isHover;
-    
+    private BufferedImage image;
+    private JLabel imgLabel;
+
+
     public BaseComponent(){
        backgroundColor = defaultBackgroundColor;  
        isBorderVisible = defaultIsBorderVisible;
@@ -41,6 +56,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
        isRised = defaultIsRised;
        isHover = false;
        isHoverable = defaultIsHoverable;
+       showImg = defaultShowImg;
        addMouseListener(this);
        addMouseMotionListener(this);
     }
@@ -90,9 +106,25 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
         }        
         
         g.setColor(backupColor);
+        
+        if(showImg && image != null){
+            g.drawImage(image, 0, 0, width, height, null);
+        }
     }
- 
+
+    
+    
+
+    private void setImageFromPath(String path){
+        try {
+            image = ImageIO.read(new File(path));
+        } catch (Exception e) {
+            image = null;
+            System.err.println(e);
+        }
+    }
     /* BEGIN SETTERS & GETTERS */
+
     public void setBackgroundColor(Color newBackgroundColor)
     {
         backgroundColor = newBackgroundColor;
@@ -157,8 +189,28 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     public boolean getIsRised(){
         return isRised;
     }
+
+    public void setImgPath(String newImgPath){
+        imgPath = newImgPath;
+        setImageFromPath(imgPath);
+    }
+
+    public String getImgPath(){
+        return imgPath;
+    }
+
+    public void setShowImg(boolean newShowImg){
+        showImg = newShowImg;
+        repaint();
+    }
+    
+    public boolean getShowImg(){
+        return showImg; 
+    }
     
     /* END SETTERS & GETTERS */
+
+
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
