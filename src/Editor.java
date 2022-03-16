@@ -23,20 +23,13 @@ public class Editor extends BaseComponent{
         setIsRised(true);
         setIsBorderVisible(false);
         //super.setImgPath("src\\Test_image.jpg");
-        super.setImgPath("src\\assets\\Test_image.jpg");
         super.setShowImg(true);
+        
 
     }
-
-
 
     /* ---------------------------- SETTERS & GETTERS --------------------------- */
-    public void setImgPath(String newImgPath)
-    {
-        imgPath = newImgPath;
-    }
+    
+    
 
-    public String getImgPath(){
-        return imgPath;
-    }
 }
