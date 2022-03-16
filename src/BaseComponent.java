@@ -123,61 +123,134 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
             System.err.println(e);
         }
     }
-    /* BEGIN SETTERS & GETTERS */
+    
+    /* ------------------------- BEGIN SETTERS & GETTERS ------------------------ */
 
+
+    /**
+     * <h3>void setBackgroundColor(Color newBackgroundColor)</h3>
+     * <p>
+     * setter method to set the color for the background of the BaseComponent
+     * </p>
+     */
     public void setBackgroundColor(Color newBackgroundColor)
     {
         backgroundColor = newBackgroundColor;
         repaint();
     }
     
+    /**
+     * <h3>Color getBackgroundColor()</h3>
+     * <p>
+     * getter method to get the color for the background of the BaseComponent 
+     * </p>
+     */
     public Color getBackgroundColor(){
         return backgroundColor;
     }
     
+    /**
+     * <h3>void setHoverBackgroundColor(Color newHoverBackgroundColor)</h3>
+     * <p>
+     * setter method to set the secondary color of the background of the BaseComponent while hovering it
+     * </p>
+     */
     public void setHoverBackgroundColor(Color newHoverBackgroundColor)
     {
         hoverBackgroundColor = newHoverBackgroundColor;
         repaint();
     }
     
+    /**
+     * <h3>Color getHoverBackgroundColor()</h3>
+     * <p>
+     * getter method to get the secondary color for the background of the BaseComponent while hovering it
+     * </p>
+     */
     public Color getHoverBackgroundColor(){
         return hoverBackgroundColor;
     }
     
+    /**
+     * <h3>void setIsBorderVisible(boolean newVisibility)</h3>
+     * <p>
+     * setter method to set if the border of the BaseComponent is visible
+     * </p>
+     */
     public void setIsBorderVisible(boolean newVisibility){
         isBorderVisible = newVisibility;
         repaint();
     }
 
+    /**
+     * <h3>boolean getIsBorderVisible()</h3>
+     * <p>
+     * getter method to get if the border of the BaseComponent is visible
+     * </p>
+     */
     public boolean getIsBorderVisible(){
         return isBorderVisible;
     }
 
+    /**
+     * <h3>void setIsHoverable(boolean newIsHoverable)</h3>
+     * <p>
+     * setter method to set if the BaseComponent is able change color while it is hovered
+     * </p>
+     */
     public void setIsHoverable(boolean newIsHoverable){
         isHoverable = newIsHoverable;
         repaint();
     } 
 
+     /**
+     * <h3>boolean getIsHoverable()</h3>
+     * <p>
+     * getter method to get if the BaseComponent is able change color while it is hovered
+     * </p>
+     */
     public boolean getIsHoverable(){
         return isHoverable;
     }
 
-    public void setBorderColor1(Color newTopBordeColor){
-        borderColor1 = newTopBordeColor;
+    /**
+     * <h3>void setBorderColor1(Color newTopBorderColor)</h3>
+     * <p>
+     * setter method to set the top border color
+     * </p>
+     */
+    public void setBorderColor1(Color newTopBorderColor){
+        borderColor1 = newTopBorderColor;
         repaint();
     }
-    
+    /**
+     * <h3>Color getBorderColor1()</h3>
+     * <p>
+     * getter method to get the top border color
+     * </p>
+     */
     public Color getBorderColor1(){
         return borderColor1;
     }
 
-    public void setBorderColor2(Color newBottomBordeColor){
-        borderColor2 = newBottomBordeColor;
+    /**
+     * <h3>void setBorderColor2(Color newBottomBorderColor)</h3>
+     * <p>
+     * setter method to set the bottom border color
+     * </p>
+     */
+    public void setBorderColor2(Color newBottomBorderColor){
+        borderColor2 = newBottomBorderColor;
         repaint();
     }
 
-    public Color geBorderColor2(){
+    /**
+     * <h3>Color getBorderColor2()</h3>
+     * <p>
+     * getter method to get the bottom border color
+     * </p>
+     */
+    public Color getBorderColor2(){
         return borderColor2;
     }
 
@@ -208,7 +281,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
         return showImg; 
     }
     
-    /* END SETTERS & GETTERS */
+    /* -------------------------- END SETTERS & GETTERS ------------------------- */
 
 
 

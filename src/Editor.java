@@ -23,7 +23,7 @@ public class Editor extends BaseComponent{
         setIsRised(true);
         setIsBorderVisible(false);
         //super.setImgPath("src\\Test_image.jpg");
-        super.setImgPath("C:\\Users\\Utente\\Desktop\\fakePS2-main\\src\\assets\\Test_image.jpg");
+        super.setImgPath("src\\assets\\Test_image.jpg");
         super.setShowImg(true);
 
     }
