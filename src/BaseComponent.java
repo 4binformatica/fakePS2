@@ -113,7 +113,16 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     }
 
     
-    
+    private String convertToJavaPath(String p){
+        p = p.replace("\\", "\\\\");
+        return p;
+    }
+
+    private String convertToRealPath(String p){
+        p = p.replace("\\\\", "\\");
+        return p;
+    }
+
 
     private void setImageFromPath(String path){
         try {
@@ -122,6 +131,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
             image = null;
             System.err.println(e);
         }
+        repaint();
     }
     
     /* ------------------------- BEGIN SETTERS & GETTERS ------------------------ */
@@ -264,12 +274,12 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void setImgPath(String newImgPath){
-        imgPath = newImgPath;
+        imgPath = convertToJavaPath(newImgPath);
         setImageFromPath(imgPath);
     }
 
     public String getImgPath(){
-        return imgPath;
+        return convertToRealPath(imgPath);
     }
 
     public void setShowImg(boolean newShowImg){
