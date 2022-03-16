@@ -2,7 +2,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.nio.file.Path;
+import java.awt.image.*;
 
 public class BaseComponent extends JPanel implements MouseListener, MouseMotionListener
 {
@@ -15,6 +24,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     static Color defaultBorderColor1 = Color.white;
     static Color defaultBorderColor2 = Color.darkGray;
     static boolean defaultIsRised = false;
+    static boolean defaultShowImg = false;
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
     
     private Color backgroundColor;
@@ -25,13 +35,18 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     private Color borderColor1;
     private Color borderColor2;
     private boolean isRised;
+    private String imgPath;
+    private boolean showImg;
     
     /* ----------------------------- INTERNAL USAGE ----------------------------- */
     private int width;
     private int height;
     private Rectangle myRect;
     private boolean isHover;
-    
+    private BufferedImage image;
+    private JLabel imgLabel;
+
+
     public BaseComponent(){
        backgroundColor = defaultBackgroundColor;  
        isBorderVisible = defaultIsBorderVisible;
@@ -41,6 +56,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
        isRised = defaultIsRised;
        isHover = false;
        isHoverable = defaultIsHoverable;
+       showImg = defaultShowImg;
        addMouseListener(this);
        addMouseMotionListener(this);
     }
@@ -90,62 +106,151 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
         }        
         
         g.setColor(backupColor);
+        
+        if(showImg && image != null){
+            g.drawImage(image, 0, 0, width, height, null);
+        }
     }
- 
-    /* BEGIN SETTERS & GETTERS */
+
+    
+    
+
+    private void setImageFromPath(String path){
+        try {
+            image = ImageIO.read(new File(path));
+        } catch (Exception e) {
+            image = null;
+            System.err.println(e);
+        }
+    }
+    
+    /* ------------------------- BEGIN SETTERS & GETTERS ------------------------ */
+
+
+    /**
+     * <h3>void setBackgroundColor(Color newBackgroundColor)</h3>
+     * <p>
+     * setter method to set the color for the background of the BaseComponent
+     * </p>
+     */
     public void setBackgroundColor(Color newBackgroundColor)
     {
         backgroundColor = newBackgroundColor;
         repaint();
     }
     
+    /**
+     * <h3>Color getBackgroundColor()</h3>
+     * <p>
+     * getter method to get the color for the background of the BaseComponent 
+     * </p>
+     */
     public Color getBackgroundColor(){
         return backgroundColor;
     }
     
+    /**
+     * <h3>void setHoverBackgroundColor(Color newHoverBackgroundColor)</h3>
+     * <p>
+     * setter method to set the secondary color of the background of the BaseComponent while hovering it
+     * </p>
+     */
     public void setHoverBackgroundColor(Color newHoverBackgroundColor)
     {
         hoverBackgroundColor = newHoverBackgroundColor;
         repaint();
     }
     
+    /**
+     * <h3>Color getHoverBackgroundColor()</h3>
+     * <p>
+     * getter method to get the secondary color for the background of the BaseComponent while hovering it
+     * </p>
+     */
     public Color getHoverBackgroundColor(){
         return hoverBackgroundColor;
     }
     
+    /**
+     * <h3>void setIsBorderVisible(boolean newVisibility)</h3>
+     * <p>
+     * setter method to set if the border of the BaseComponent is visible
+     * </p>
+     */
     public void setIsBorderVisible(boolean newVisibility){
         isBorderVisible = newVisibility;
         repaint();
     }
 
+    /**
+     * <h3>boolean getIsBorderVisible()</h3>
+     * <p>
+     * getter method to get if the border of the BaseComponent is visible
+     * </p>
+     */
     public boolean getIsBorderVisible(){
         return isBorderVisible;
     }
 
+    /**
+     * <h3>void setIsHoverable(boolean newIsHoverable)</h3>
+     * <p>
+     * setter method to set if the BaseComponent is able change color while it is hovered
+     * </p>
+     */
     public void setIsHoverable(boolean newIsHoverable){
         isHoverable = newIsHoverable;
         repaint();
     } 
 
+     /**
+     * <h3>boolean getIsHoverable()</h3>
+     * <p>
+     * getter method to get if the BaseComponent is able change color while it is hovered
+     * </p>
+     */
     public boolean getIsHoverable(){
         return isHoverable;
     }
 
-    public void setBorderColor1(Color newTopBordeColor){
-        borderColor1 = newTopBordeColor;
+    /**
+     * <h3>void setBorderColor1(Color newTopBorderColor)</h3>
+     * <p>
+     * setter method to set the top border color
+     * </p>
+     */
+    public void setBorderColor1(Color newTopBorderColor){
+        borderColor1 = newTopBorderColor;
         repaint();
     }
-    
+    /**
+     * <h3>Color getBorderColor1()</h3>
+     * <p>
+     * getter method to get the top border color
+     * </p>
+     */
     public Color getBorderColor1(){
         return borderColor1;
     }
 
-    public void setBorderColor2(Color newBottomBordeColor){
-        borderColor2 = newBottomBordeColor;
+    /**
+     * <h3>void setBorderColor2(Color newBottomBorderColor)</h3>
+     * <p>
+     * setter method to set the bottom border color
+     * </p>
+     */
+    public void setBorderColor2(Color newBottomBorderColor){
+        borderColor2 = newBottomBorderColor;
         repaint();
     }
 
-    public Color geBorderColor2(){
+    /**
+     * <h3>Color getBorderColor2()</h3>
+     * <p>
+     * getter method to get the bottom border color
+     * </p>
+     */
+    public Color getBorderColor2(){
         return borderColor2;
     }
 
@@ -157,8 +262,28 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     public boolean getIsRised(){
         return isRised;
     }
+
+    public void setImgPath(String newImgPath){
+        imgPath = newImgPath;
+        setImageFromPath(imgPath);
+    }
+
+    public String getImgPath(){
+        return imgPath;
+    }
+
+    public void setShowImg(boolean newShowImg){
+        showImg = newShowImg;
+        repaint();
+    }
     
-    /* END SETTERS & GETTERS */
+    public boolean getShowImg(){
+        return showImg; 
+    }
+    
+    /* -------------------------- END SETTERS & GETTERS ------------------------- */
+
+
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
