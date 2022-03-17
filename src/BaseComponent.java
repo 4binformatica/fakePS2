@@ -69,11 +69,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
         height= myRect.height;
         
         /* disegno lo sfondo */
-        Color bgColor;
-        if (isHover && isHoverable)
-           bgColor = hoverBackgroundColor;
-        else
-           bgColor = backgroundColor;  
+        Color bgColor = isHover && isHoverable ? hoverBackgroundColor : backgroundColor;
         g.setColor(bgColor); 
         g.fillRect(0,0,width,height);
         
