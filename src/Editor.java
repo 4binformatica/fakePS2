@@ -32,19 +32,23 @@ public class Editor extends BaseComponent{
     }
 
     
-    @Override
-    public void mouseDragged(MouseEvent e){
-        Graphics g = getGraphics();
-        g.setColor(Info.c);
-        g.fillOval(e.getX(), e.getY(), 10, 10);
-    }
+    
+
 
     
 
 
 
     /* ---------------------------- SETTERS & GETTERS --------------------------- */
-    
-    
 
+    
+    
+    /* -------------------------- END SETTERS & GETTERS ------------------------- */
+
+    @Override
+    public void mouseDragged(MouseEvent e){
+        Graphics g = getGraphics();
+        g.setColor(Info.c);
+        g.fillOval(e.getX(), e.getY(), 10, 10);
+    }
 }
