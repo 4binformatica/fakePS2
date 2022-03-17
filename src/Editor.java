@@ -1,15 +1,17 @@
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.*;
+import java.awt.event.*;
+
+
 
 
 public class Editor extends BaseComponent{
 
 /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
-    private String imgPath;
+    
 /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     private Rectangle myRect;
-    private Image image;
 
 
     Editor(int x, int y, int w, int h){
@@ -23,10 +25,23 @@ public class Editor extends BaseComponent{
         setIsRised(true);
         setIsBorderVisible(false);
         //super.setImgPath("src\\Test_image.jpg");
-        super.setShowImg(true);
-        
-
+        setShowImg(true);
+        setIsInteractive(false);
+        addMouseMotionListener(this);
+        addMouseListener(this);
     }
+
+    
+    @Override
+    public void mouseDragged(MouseEvent e){
+        Graphics g = getGraphics();
+        g.setColor(Info.c);
+        g.fillOval(e.getX(), e.getY(), 10, 10);
+    }
+
+    
+
+
 
     /* ---------------------------- SETTERS & GETTERS --------------------------- */
     

@@ -3,7 +3,6 @@ import javax.swing.JFrame;
 
 import java.awt.event.*;
 //import javax.swing.JLabel;
-import java.util.ArrayList;
 import java.awt.*;
 
 public class MainWindow extends JFrame implements MouseListener{
@@ -53,7 +52,7 @@ public class MainWindow extends JFrame implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         
         if(e.getComponent() == b1){
-            Opener o = new Opener();
+            new Opener();
         }
         if(e.getComponent() == b2){
             //edit.setImgPath(Opener.getFilePath());

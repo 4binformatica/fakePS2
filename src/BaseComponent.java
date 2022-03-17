@@ -3,14 +3,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+
 import javax.swing.JPanel;
-import java.awt.*;
-import javax.swing.*;
+
 import javax.imageio.*;
 import java.io.*;
-import java.nio.file.Path;
 import java.awt.image.*;
 
 public class BaseComponent extends JPanel implements MouseListener, MouseMotionListener
@@ -20,6 +17,7 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     static Color defaultHoverBackgroundColor = new Color(75,75,75);
     static boolean defaultIsBorderVisible = true;
     static boolean defaultIsHoverable = false;
+    static boolean defaultIsInteractive = true;
     
     static Color defaultBorderColor1 = Color.white;
     static Color defaultBorderColor2 = Color.darkGray;
@@ -31,12 +29,14 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     private boolean isBorderVisible;
     private Color hoverBackgroundColor;
     private boolean isHoverable;
+    private boolean isInteractive;
 
     private Color borderColor1;
     private Color borderColor2;
     private boolean isRised;
     private String imgPath;
     private boolean showImg;
+
     
     /* ----------------------------- INTERNAL USAGE ----------------------------- */
     private int width;
@@ -44,8 +44,6 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     private Rectangle myRect;
     private boolean isHover;
     private BufferedImage image;
-    private JLabel imgLabel;
-
 
     public BaseComponent(){
        backgroundColor = defaultBackgroundColor;  
@@ -57,8 +55,8 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
        isHover = false;
        isHoverable = defaultIsHoverable;
        showImg = defaultShowImg;
-       addMouseListener(this);
-       addMouseMotionListener(this);
+       isInteractive = defaultIsInteractive;
+       manageInteraction();
     }
     
     @Override
@@ -128,6 +126,17 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
             System.err.println(e);
         }
         repaint();
+    }
+
+    private void manageInteraction(){
+        if(isInteractive){
+            addMouseListener(this);
+            addMouseMotionListener(this);
+        } else {
+            removeMouseListener(this);
+            removeMouseMotionListener(this);
+        }
+        setIsHoverable(isInteractive); 
     }
     
     /* ------------------------- BEGIN SETTERS & GETTERS ------------------------ */
@@ -286,6 +295,15 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
     public boolean getShowImg(){
         return showImg; 
     }
+
+    public void setIsInteractive(boolean newIsInteractive){
+        isInteractive = newIsInteractive;
+        manageInteraction();
+    }
+
+    public boolean getIsInteractive(){
+        return isInteractive;
+    }
     
     /* -------------------------- END SETTERS & GETTERS ------------------------- */
 
@@ -308,20 +326,23 @@ public class BaseComponent extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mouseEntered(java.awt.event.MouseEvent e) {
-       isHover = true;
-       repaint();
+       if(isHoverable){
+        isHover = true;
+        repaint();
+       }
     }
 
     @Override
     public void mouseExited(java.awt.event.MouseEvent e) {
-       isHover = false;
-       repaint(); 
+       if(isHoverable){
+        isHover = false;
+        repaint(); 
+       }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
-        //System.out.println("dragging");
         
     }
 
