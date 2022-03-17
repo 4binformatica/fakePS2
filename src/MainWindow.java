@@ -5,7 +5,7 @@ import java.awt.event.*;
 //import javax.swing.JLabel;
 import java.awt.*;
 
-public class MainWindow extends JFrame implements MouseListener{
+public class MainWindow extends JFrame implements MouseListener, MouseMotionListener{
 	SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperButton b2 = new SuperButton(120, 100, 100, 100);
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
@@ -33,16 +33,16 @@ public class MainWindow extends JFrame implements MouseListener{
         });*/
         b1.setLabel("seleziona file");
         this.add(b1);
-        s1.setValue(7000);
         s1.setMin(0);
-        s1.setMax(100);
+        s1.setMax(255);
         this.add(s1);
         this.add(edit);
         b1.addMouseListener(this);
         b2.setLabel("conferma");
         b2.addMouseListener(this);
         this.add(b2);
-        
+        s1.addMouseListener(this);
+        s1.addMouseMotionListener(this);
         
     }
 
@@ -58,6 +58,9 @@ public class MainWindow extends JFrame implements MouseListener{
             //edit.setImgPath(Opener.getFilePath());
             System.out.println(Opener.getFilePath());
             edit.setImgPath(Opener.getFilePath());
+        }
+        if(e.getComponent() == s1){
+            Info.c = new Color((int) s1.getValue(), (int) s1.getValue(),(int) s1.getValue());
         }
         
     }
@@ -82,6 +85,19 @@ public class MainWindow extends JFrame implements MouseListener{
 
     @Override
     public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if(e.getComponent() == s1){
+            Info.c = new Color((int) s1.getValue(), (int) s1.getValue(),(int) s1.getValue());
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
         // TODO Auto-generated method stub
         
     }
