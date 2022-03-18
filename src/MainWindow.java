@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame implements MouseListener, MouseMotionListener{
-	SuperButton b1 = new SuperButton(10, 100, 100, 100);
+    SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperButton b2 = new SuperButton(120, 100, 100, 100);
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
     SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
