@@ -10,8 +10,10 @@ public class SuperButton extends BaseComponent{
     static Color defaultTextColor = new Color(220, 220, 220);
     static Font defaultTextFont = new Font("assets/fonts/Ubuntu-Bold.ttf", Font.BOLD, 12);
     static String defaultLabel = "";
+    static boolean defaultIsPressable = true;
    
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
+    private boolean isPressable;
     private Color textColor;
     private Font textFont;
     private String label;
@@ -35,6 +37,7 @@ public class SuperButton extends BaseComponent{
     }
 
     private void initButton(){
+        isPressable = defaultIsPressable;
         label = defaultLabel;
         textColor = defaultTextColor;
         textFont = defaultTextFont;
@@ -52,13 +55,17 @@ public class SuperButton extends BaseComponent{
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         super.mousePressed(e);
-        super.setIsRised(false);
+        if(isPressable){
+            super.setIsRised(false);
+        }
     }
 
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
         super.mouseReleased(e);
-        super.setIsRised(true);
+        if(isPressable){
+            super.setIsRised(true);
+        }
     }
     
     
@@ -78,6 +85,8 @@ public class SuperButton extends BaseComponent{
     }
     
 
+    
+    
     
     
     
@@ -109,8 +118,16 @@ public class SuperButton extends BaseComponent{
         return textFont;
     }
 
+    public void setIsPressable(boolean newIsPressable){
+        isPressable = newIsPressable;
+        repaint();
+    }
 
+    public boolean getIsPressable(){
+        return isPressable;
+    }
 
+    
 
     
     /* ENDS SETTERS & GETTERS */

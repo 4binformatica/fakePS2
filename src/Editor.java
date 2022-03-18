@@ -1,15 +1,17 @@
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.*;
+import java.awt.event.*;
+
+
 
 
 public class Editor extends BaseComponent{
 
 /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
-    private String imgPath;
+    
 /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     private Rectangle myRect;
-    private Image image;
 
 
     Editor(int x, int y, int w, int h){
@@ -22,14 +24,32 @@ public class Editor extends BaseComponent{
         setIsHoverable(false);
         setIsRised(true);
         setIsBorderVisible(false);
+        setBackgroundColor(Color.lightGray);
         //super.setImgPath("src\\Test_image.jpg");
-        super.setShowImg(true);
-        
-
+        setShowImg(true);
+        setIsInteractive(false);
+        addMouseMotionListener(this);
+        addMouseListener(this);
     }
 
-    /* ---------------------------- SETTERS & GETTERS --------------------------- */
     
     
 
+
+    
+
+
+
+    /* ---------------------------- SETTERS & GETTERS --------------------------- */
+
+    
+    
+    /* -------------------------- END SETTERS & GETTERS ------------------------- */
+
+    @Override
+    public void mouseDragged(MouseEvent e){
+        Graphics g = getGraphics();
+        g.setColor(Info.c);
+        g.fillOval((int)(e.getX() - Info.brushDiameter / 2), (int)(e.getY() - Info.brushDiameter / 2), (int)Info.brushDiameter, (int)Info.brushDiameter);
+    }
 }

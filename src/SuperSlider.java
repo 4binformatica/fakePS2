@@ -37,6 +37,7 @@ public class SuperSlider extends BaseComponent{
         value = defaultValue;
         max = defaultMax;
         min = defaultMin;
+        setIsHoverable(false);
     }
 
 
@@ -77,7 +78,6 @@ public class SuperSlider extends BaseComponent{
         double perc = mx / myRect.width;
         double buffer = totalRange * perc;
         value = min + buffer;
-        System.out.println(value);
         repaint();
     }
 
