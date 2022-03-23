@@ -1,3 +1,3 @@
-interface SuperButtonListenerInterface{
+public interface SuperButtonListenerInterface {
     void click();
 }

@@ -203,6 +203,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     
     private void setColor(){
         Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
+        Info.brushDiameter = (float) s4.getValue();
         Debugger.log(Info.c);
     }
 
