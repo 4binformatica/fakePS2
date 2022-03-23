@@ -37,45 +37,90 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         b1.setLabel("seleziona file");
         this.add(b1);
 
+        b1.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("b1 clicked");
+                openOpener();
+                
+            }
+        });
+
+
+        b2.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                Debugger.log("b2 clicked");
+                setEditorImage();
+                
+            }
+        });
+
+        s1.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("s1 slided");
+                setColor();
+
+            }
+        });
+
+        s2.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("s2 slided");
+                setColor();
+            }
+        });
+
+        s3.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("s3 slided");
+                setColor();
+            }
+        });
+
+        s4.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("s4 slided");
+                setColor();
+            }
+        });
+        
         s1.setMin(0);
         s1.setMax(255);
-        s1.addMouseListener(this);
-        s1.addMouseMotionListener(this);
         this.add(s1);
 
         s2.setMin(0);
         s2.setMax(255);
-        s2.addMouseListener(this);
-        s2.addMouseMotionListener(this);
+        
         this.add(s2);
 
         s3.setMin(0);
         s3.setMax(255);
-        s3.addMouseListener(this);
-        s3.addMouseMotionListener(this);
+        
         this.add(s3);
 
         s4.setMin(0);
         s4.setMax(400);
-        s4.addMouseListener(this);
-        s4.addMouseMotionListener(this);
+        
         this.add(s4);
-
         this.add(edit);
-        b1.addMouseListener(this);
         b2.setLabel("conferma");
-        b2.addMouseListener(this);
         this.add(b2);
         
         
     }
-
     
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
         
-        if(e.getComponent() == b1){
+       /*  if(e.getComponent() == b1){
             new Opener();
         }
         if(e.getComponent() == b2){
@@ -89,7 +134,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
 
         if(e.getComponent() == s4){
             Info.brushDiameter = (float)s4.getValue();
-        }
+        } */
         
     }
 
@@ -119,12 +164,12 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(e.getComponent() == s1 ||e.getComponent() == s2 ||e.getComponent() == s3){
+        /* if(e.getComponent() == s1 ||e.getComponent() == s2 ||e.getComponent() == s3){
             Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
         }
         if(e.getComponent() == s4){
             Info.brushDiameter = (float)s4.getValue();
-        }
+        } */
     }
 
     @Override
@@ -133,5 +178,34 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         
     }
 
+    /* ------------------------------ BUTTON EVENT ------------------------------ */
+
+    /**
+     * <h3>openOpener Method()</h3>
+     * <p>
+     * This method can open the opener class.
+     * </p>
+     */
+    private void openOpener(){
+        Debugger.log("Let's Open the Opener");
+        new Opener();    
+    }
+
+    private void setEditorImage(){
+        Debugger.log(Opener.getFilePath());
+        edit.setImgPath(Opener.getFilePath());
+
+    }
+
+    /* ------------------------------ END BUTTON EVENT -------------------------- */
+
+    /* ------------------------------ SLIDER EVENT ------------------------------ */
+    
+    private void setColor(){
+        Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
+        Debugger.log(Info.c);
+    }
+
+    /* ---------------------------- END SLIDER EVENT ---------------------------- */
     
 }

@@ -4,6 +4,7 @@ public class Info {
         
     static Color c = Color.white;
     static float brushDiameter = 10;
+    static boolean debug = true;
     
 
 

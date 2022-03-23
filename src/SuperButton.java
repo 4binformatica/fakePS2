@@ -3,11 +3,14 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class SuperButton extends BaseComponent{
     
-    static Color defaultTextColor = new Color(220, 220, 220);
+    static Color defaultTextColor =  new Color(220, 220, 220);
     static Font defaultTextFont = new Font("assets/fonts/Ubuntu-Bold.ttf", Font.BOLD, 12);
     static String defaultLabel = "";
     static boolean defaultIsPressable = true;
@@ -17,6 +20,9 @@ public class SuperButton extends BaseComponent{
     private Color textColor;
     private Font textFont;
     private String label;
+    private List<SuperButtonListenerInterface> listeners = new ArrayList<>();
+
+
 
     /* ----------------------------- INTERNAL ACCES ----------------------------- */
     private Rectangle myRect;
@@ -57,6 +63,15 @@ public class SuperButton extends BaseComponent{
         super.mousePressed(e);
         if(isPressable){
             super.setIsRised(false);
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+        super.mouseClicked(e);
+        if(isPressable){
+            startAction();
         }
     }
 
@@ -130,8 +145,19 @@ public class SuperButton extends BaseComponent{
     
 
     
+
+    
     /* ENDS SETTERS & GETTERS */
     
+    public void addListener(SuperButtonListenerInterface toAdd) {
+        listeners.add(toAdd);
+    }
     
-    
+    public void startAction() {
+        //System.out.println("Hello!!");
+
+        // Notify everybody that may be interested.
+        for (SuperButtonListenerInterface hl : listeners)
+            hl.click();
+    }
 }

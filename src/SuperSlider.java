@@ -1,8 +1,9 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 //import java.awt.event.*;
-
+import java.util.ArrayList;
 import java.awt.event.*;
+import java.util.List;
 
 
 public class SuperSlider extends BaseComponent{
@@ -14,6 +15,8 @@ public class SuperSlider extends BaseComponent{
     private double value;
     private double max;
     private double min;
+    private List<SuperSliderListenerInterface> listeners = new ArrayList<>();
+
 
     /* ----------------------------- INTERNAL ACCES ----------------------------- */
     private Rectangle myRect;
@@ -61,6 +64,7 @@ public class SuperSlider extends BaseComponent{
         super.mouseClicked(e);
         if(!(e.getX() > pPerc && e.getX() < pPerc + radius)){
             moveInMouseX(e.getX());
+            startAction();
         }
     }
 
@@ -69,6 +73,7 @@ public class SuperSlider extends BaseComponent{
         super.mouseDragged(e);
         if(e.getX() > pPerc && e.getX() < pPerc + radius){
             moveInMouseX(e.getX());
+            startAction();
         }
 
     }
@@ -129,6 +134,19 @@ public class SuperSlider extends BaseComponent{
             System.err.println("value out bounds");
         }
         repaint();
+    }
+
+    public void addListener(SuperSliderListenerInterface toAdd) {
+        listeners.add(toAdd);
+    }
+
+
+    public void startAction() {
+        //System.out.println("Hello!!");
+
+        // Notify everybody that may be interested.
+        for (SuperSliderListenerInterface hl : listeners)
+            hl.slide();
     }
 
     
