@@ -13,7 +13,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
     SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
     Editor edit = new Editor(250, 100, 600, 600);
-    MainWindow(){
+    public MainWindow(){
         this.setBounds(10, 10, 1000, 1000);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
