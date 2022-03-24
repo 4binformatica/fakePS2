@@ -22,7 +22,7 @@ public class Debugger{
     public static void log(){
         if (Debugger.isEnabled()){
             updateDate();
-            System.out.println(ANSI_GREEN+d.toString()+" [DEBUG_LOG] "+"\n"+ANSI_RESET);
+            System.out.println(ANSI_GREEN+d.toString()+" [DEBUG_LOG] "+ANSI_RESET);
         }
     }
 
