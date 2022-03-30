@@ -8,11 +8,13 @@ import java.awt.*;
 public class MainWindow extends JFrame implements MouseListener, MouseMotionListener{
     SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperButton b2 = new SuperButton(120, 100, 100, 100);
+    SuperButton addLayer = new SuperButton(10, 500, 600, 600);
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
     SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
     SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
     Editor edit = new Editor(250, 100, 600, 600);
+    SaveButton sb = new SaveButton(10, 500, 100, 100, edit);
     public MainWindow(){
         this.setBounds(10, 10, 1000, 1000);
         this.setLayout(null);
@@ -111,6 +113,8 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         this.add(edit);
         b2.setLabel("conferma");
         this.add(b2);
+
+        this.add(sb);
         
         
     }

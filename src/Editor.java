@@ -2,6 +2,7 @@
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 
@@ -9,9 +10,10 @@ import java.awt.event.*;
 public class Editor extends BaseComponent{
 
 /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
-    
+    private int selectedLayer = 0;
 /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     private Rectangle myRect;
+    private LayerManager layerManager;
 
 
     Editor(int x, int y, int w, int h){
@@ -21,15 +23,18 @@ public class Editor extends BaseComponent{
     }
 
     void init(){
+        setLayout(null);
+        layerManager = new LayerManager();
+        layerManager.addLayer(new Layer(myRect.width, myRect.height));
         setIsHoverable(false);
         setIsRised(true);
         setIsBorderVisible(false);
-        setBackgroundColor(Color.lightGray);
-        //super.setImgPath("src\\Test_image.jpg");
         setShowImg(true);
         setIsInteractive(false);
         addMouseMotionListener(this);
         addMouseListener(this);
+        layerManager.addOn(this);
+        
     }
 
     
@@ -48,8 +53,9 @@ public class Editor extends BaseComponent{
 
     @Override
     public void mouseDragged(MouseEvent e){
-        Graphics g = getGraphics();
-        g.setColor(Info.c);
-        g.fillOval((int)(e.getX() - Info.brushDiameter / 2), (int)(e.getY() - Info.brushDiameter / 2), (int)Info.brushDiameter, (int)Info.brushDiameter);
+        layerManager.dragging(e.getX(), e.getY());
+        layerManager.addOn(this);
     }
+
+    
 }
