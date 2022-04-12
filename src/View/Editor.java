@@ -3,6 +3,7 @@ package View;
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Controller.Layer;
@@ -21,14 +22,14 @@ public class Editor extends BaseComponent{
     private LayerManager layerManager;
 
 
-    public Editor(int x, int y, int w, int h){
+    public Editor(int x, int y, int w, int h) {
         setBounds(x, y, w, h);
         myRect = new Rectangle(w, h);
        
         init();
     }
 
-    void init(){
+    void init() {
         setLayout(null);
         layerManager = new LayerManager();
         layerManager.addLayer(new Layer(myRect.width, myRect.height));
@@ -39,6 +40,7 @@ public class Editor extends BaseComponent{
         setIsInteractive(false);
         addMouseMotionListener(this);
         addMouseListener(this);
+        
 
         
         
@@ -46,9 +48,14 @@ public class Editor extends BaseComponent{
     }
 
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         super.paint(g);
-        layerManager.createView(this, g);
+        try {
+            g.drawImage(LayerManager.createView(myRect.width, myRect.height), 0, 0, null);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } // see javadoc for more info on the parameters            
     }
 
 
@@ -69,7 +76,7 @@ public class Editor extends BaseComponent{
 
     @Override
     public void mouseDragged(MouseEvent e){
-        LayerManager.dragging(e.getX(), e.getY());
+        //LayerManager.dragging(e.getX(), e.getY());
         repaint();
     }
 

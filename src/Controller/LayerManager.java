@@ -2,9 +2,14 @@ package Controller;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultButtonModel;
 import javax.swing.JPanel;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import Utils.Debugger;
 
@@ -12,7 +17,7 @@ import java.awt.Graphics;
 
 public class LayerManager implements MouseListener, MouseMotionListener{
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
-    private ArrayList<Layer> LayerList = new ArrayList<>();
+    private static ArrayList<Layer> LayerList = new ArrayList<>();
     /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     
     private int x;
@@ -28,14 +33,14 @@ public class LayerManager implements MouseListener, MouseMotionListener{
                 Debugger.log(LayerList.get(Info.selectedLayer));
                 
                 SelectedLayer = LayerList.get(Info.selectedLayer);
-                SelectedLayer.pixels[x][y] = new Color(255, 255, 255).getRGB();
+                
                 break;
         }
     }
 
 
-    public void createView(JPanel panel, Graphics g){
-        for(Layer layer : LayerList){
+    public static BufferedImage createView(int weight, int height) throws IOException{
+        /*for(Layer layer : LayerList){
             for(int i = 0; i < layer.w; i++){
                 for(int j = 0; j < layer.h; j++){
                     
@@ -44,11 +49,19 @@ public class LayerManager implements MouseListener, MouseMotionListener{
                     panel.repaint();
                 }
             }
+        }*/
+        BufferedImage img = new BufferedImage(weight, height, BufferedImage.TYPE_INT_RGB);
+        for(Layer layer : LayerList){
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(layer.bytes);
+            img = ImageIO.read(inputStream);
+            
         }
+
+        return img;
     }
 
     public void addLayer(Layer newLayer){
-        this.LayerList.add(newLayer);
+        LayerManager.LayerList.add(newLayer);
     }
 
     @Override
