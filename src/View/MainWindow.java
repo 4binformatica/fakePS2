@@ -1,5 +1,14 @@
+package View;
 //import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import Controller.Info;
+import Controller.Opener;
+import Controller.SuperButton;
+import Controller.SuperButtonListenerInterface;
+import Controller.SuperSlider;
+import Controller.SuperSliderListenerInterface;
+import Utils.Debugger;
 
 import java.awt.event.*;
 //import javax.swing.JLabel;
@@ -111,6 +120,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         
         this.add(s4);
         this.add(edit);
+        
         b2.setLabel("conferma");
         this.add(b2);
 

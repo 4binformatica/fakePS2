@@ -1,9 +1,12 @@
+package Controller;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 //import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.event.*;
 import java.util.List;
+
+import View.BaseComponent;
 
 
 public class SuperSlider extends BaseComponent{
@@ -28,7 +31,7 @@ public class SuperSlider extends BaseComponent{
 
     
 
-    SuperSlider(int x, int y, int w, int h){
+    public SuperSlider(int x, int y, int w, int h){
         setBounds(x, y ,w, h);
         myRect = new Rectangle(w, h);
         radius = h;

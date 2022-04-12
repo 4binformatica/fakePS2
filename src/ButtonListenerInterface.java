@@ -1,3 +1,0 @@
-interface SuperButtonListenerInterface{
-    void click();
-}

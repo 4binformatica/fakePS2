@@ -1,5 +1,10 @@
+package View;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import Controller.Saver;
+import Controller.SuperButton;
+import Utils.Debugger;
 
 public class SaveButton extends SuperButton{
     

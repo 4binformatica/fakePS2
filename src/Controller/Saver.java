@@ -1,4 +1,8 @@
+package Controller;
 import javax.swing.JPanel;
+
+import View.Editor;
+
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.*;
@@ -9,7 +13,7 @@ public class Saver {
     //INTERNAL ACCESS
     BufferedImage image;
     
-    Saver(Editor panel, String name, String type){
+    public Saver(Editor panel, String name, String type){
         //save graphics to image
         image = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
         
