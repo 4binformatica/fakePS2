@@ -1,5 +1,6 @@
 package Controller;
 import java.awt.Color;
+import java.io.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -7,13 +8,11 @@ import javax.swing.DefaultButtonModel;
 import javax.swing.JPanel;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import Utils.Debugger;
 
 import java.awt.Graphics;
+import java.util.concurrent.BrokenBarrierException;
 
 public class LayerManager implements MouseListener, MouseMotionListener{
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
@@ -23,8 +22,9 @@ public class LayerManager implements MouseListener, MouseMotionListener{
     private int x;
     private int y;
     private Layer SelectedLayer;
+    private static byte[] image;
     public LayerManager(){
-        
+
     }
 
     public void dragging(int x, int y){
@@ -50,14 +50,42 @@ public class LayerManager implements MouseListener, MouseMotionListener{
                 }
             }
         }*/
-        BufferedImage img = new BufferedImage(weight, height, BufferedImage.TYPE_INT_RGB);
+        /*BufferedImage img = new BufferedImage(weight, height, BufferedImage.TYPE_INT_RGB);
         for(Layer layer : LayerList){
             ByteArrayInputStream inputStream = new ByteArrayInputStream(layer.bytes);
             img = ImageIO.read(inputStream);
             
+        }*/
+        image = new byte[weight * height];
+
+
+
+
+
+        for(Layer layer : LayerList){
+            for(int i = 0; i < layer.w; i++)
+                for(int j = 0; j < layer.h; j++){
+                    image[i*layer.w+j] = (byte) new Color(Byte.toUnsignedInt(layer.bytes[i][j][0]), Byte.toUnsignedInt(layer.bytes[i][j][1]), Byte.toUnsignedInt(layer.bytes[i][j][2])).getRGB();
+
+                    //Debugger.log("color" + new Color(Byte.toUnsignedInt(layer.bytes[i][j][0]), Byte.toUnsignedInt(layer.bytes[i][j][1]), Byte.toUnsignedInt(layer.bytes[i][j][2])).getRGB());
+
+                }
+
+        }
+        for(int i = 0; i < image.length; i++){
+            Debugger.log("color" + image[i]);
         }
 
+        BufferedImage img = new BufferedImage(weight, height, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < weight; i++) {
+            for (int j = 0; j < height; j++) {
+                img.setRGB(i, j, image[i*height+j]);
+            }
+        }
+        //InputStream is = new ByteArrayInputStream(image);
+        //BufferedImage img = ImageIO.read(is);
         return img;
+
     }
 
     public void addLayer(Layer newLayer){

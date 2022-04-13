@@ -54,6 +54,7 @@ public class Editor extends BaseComponent{
             g.drawImage(LayerManager.createView(myRect.width, myRect.height), 0, 0, null);
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            Debugger.log("test");
             e.printStackTrace();
         } // see javadoc for more info on the parameters            
     }

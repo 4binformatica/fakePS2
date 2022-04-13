@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import org.w3c.dom.css.RGBColor;
 
+import Utils.Debugger;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -23,24 +25,28 @@ public class Layer {
 
 
     /* ----------------------------- INTERNAL ACCES ----------------------------- */
-    byte[] bytes;
+    byte[][][] bytes;
 
     public Layer(int w, int h) {
         this.w = w;
         this.h = h;
-        
-        
-        BufferedImage bi = new BufferedImage(this.w, this.h, BufferedImage.TYPE_INT_RGB);
+        bytes = new byte [w][h][4];
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Debugger.log("Layer created");
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                    bytes[i][j][0] = (byte) 51;
+                    bytes[i][j][1] = (byte) 220;
+                    bytes[i][j][2] = (byte) 255;
+                    //Debugger.log(Byte.toUnsignedInt(bytes[i][j][1]));
 
-        try {
-            ImageIO.write(bi, "jpg", baos );
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            }
         }
-        bytes = baos.toByteArray();
+
+
+
+
+        
     }
 
     /*int[][] pixels;
