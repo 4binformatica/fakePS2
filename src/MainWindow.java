@@ -14,7 +14,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
     SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
     Editor edit = new Editor(250, 100, 600, 600);
-    SaveButton sb = new SaveButton(10, 500, 100, 100, edit);
+    SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
         this.setBounds(10, 10, 1000, 1000);
         this.setLayout(null);
@@ -46,6 +46,15 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 Debugger.log("b1 clicked");
                 openOpener();
                 
+            }
+        });
+
+        sb.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("sb clicked");
+                edit.saveEditor();
             }
         });
 

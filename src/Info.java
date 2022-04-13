@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Info {
         
-    static Color c = Color.white;
+    static Color c = Color.blue;
     static float brushDiameter = 10;
     static boolean debug = true;
     static int selectedTool=0;

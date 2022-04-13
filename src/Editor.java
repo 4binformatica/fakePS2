@@ -4,13 +4,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+
 
 
 
 public class Editor extends BaseComponent{
 
 /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
-    private int selectedLayer = 0;
 /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     private Rectangle myRect;
     private LayerManager layerManager;
@@ -26,21 +32,32 @@ public class Editor extends BaseComponent{
         setLayout(null);
         layerManager = new LayerManager();
         layerManager.addLayer(new Layer(myRect.width, myRect.height));
+        layerManager.addLayer(new Layer(myRect.width, myRect.height));
         setIsHoverable(false);
         setIsRised(true);
         setIsBorderVisible(false);
         setShowImg(true);
         setIsInteractive(false);
         addMouseMotionListener(this);
-        addMouseListener(this);
-        layerManager.addOn(this);
-        
+        addMouseListener(this);        
     }
 
     
     
+    public void paint(Graphics g){
+        super.paint(g);
+        g.drawImage(layerManager.getImage(), 0, 0, null);
+    }
 
-
+    public void saveEditor(){
+        try {
+            BufferedImage bi = layerManager.getImage();  // retrieve image
+            File outputfile = new File("pippo.png");
+            ImageIO.write(bi, "png", outputfile);
+        } catch (IOException e) {
+            // handle exception
+        }
+    }
     
 
 
@@ -54,7 +71,7 @@ public class Editor extends BaseComponent{
     @Override
     public void mouseDragged(MouseEvent e){
         layerManager.dragging(e.getX(), e.getY());
-        layerManager.addOn(this);
+        repaint();   
     }
 
     
