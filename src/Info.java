@@ -1,12 +1,18 @@
 import java.awt.*;
 
 public class Info {
+
+
+    static int width;
+    static int height;
         
     static Color c = Color.blue;
     static float brushDiameter = 10;
     static boolean debug = true;
     static int selectedTool=0;
     static int selectedLayer=0;
+
+    static Color defaultBackgroundColor = Color.white;
 
     //tool
     class Tool{

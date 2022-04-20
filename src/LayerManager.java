@@ -1,6 +1,12 @@
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
 import java.awt.Color;
 
 public class LayerManager {
@@ -10,26 +16,35 @@ public class LayerManager {
     int[][] red;
     int[][] green;
     int[][] blue;
+    byte[] image; 
 
     LayerManager() {
-
+        image = new byte[Info.width * Info.height];
+        red = new int[Info.width][Info.height];
+        green = new int[Info.width][Info.height];
+        blue = new int[Info.width][Info.height];
     }
 
     public void dragging(int x, int y) {
         switch (Info.selectedTool) {
             case Info.Tool.BRUSH:
+                
                 // check if x and y are in the bounds of the layer
                 if (x >= 0 && x < LayerList.get(Info.selectedLayer).w && y >= 0
                         && y < LayerList.get(Info.selectedLayer).h) {
                     Debugger.log(x + " " + y);
                     LayerList.get(Info.selectedLayer).drawBrush(x, y, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue());
+                    
                 }
+                
                 break;
         }
+        updatePixel(x, y);
     }
 
     public void addLayer(Layer newLayer) {
         this.LayerList.add(newLayer);
+        overlapLayers();
     }
 
     private void overlapLayers() {
@@ -57,17 +72,16 @@ public class LayerManager {
     }
 
     public BufferedImage getImage() {
-        overlapLayers();
         BufferedImage image = new BufferedImage(red.length, red[0].length, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
 
                 if (red[i][j] == -1 || green[i][j] == -1 || blue[i][j] == -1) {
-                    image.setRGB(i, j, Color.WHITE.getRGB());
+                    image.setRGB(i, j, Info.defaultBackgroundColor.getRGB());
                 } else {
 
                     int rgb = new Color(red[i][j], green[i][j], blue[i][j]).getRGB();
-                    Debugger.log("rgb: " + rgb);
+                    //Debugger.log("rgb: " + rgb);
                     image.setRGB(i, j, rgb);
                 }
 
@@ -78,5 +92,42 @@ public class LayerManager {
 
         return image;
     }
+        
+        
+    private int convertToHex(int r, int g, int b) {
+        int rgb = (r << 16) | (g << 8) | b;
+        //Debugger.log(rgb);
+        return rgb;
+    }
+
+    // noi abbiamo i vettori uno per rosso verde e blu 
+    private void updatePixel(int x, int y) {
+        if (x >= 0 && x < LayerList.get(Info.selectedLayer).w && y >= 0 && y < LayerList.get(Info.selectedLayer).h) {
+            Debugger.log("so dentro");
+            red[x][y] = LayerList.get(0).red[x][y];
+            green[x][y] = LayerList.get(0).green[x][y];
+            blue[x][y] = LayerList.get(0).blue[x][y];
+    
+    
+            for(int i = 1; i < LayerList.size(); i++){
+                if(LayerList.get(i).isVisible){
+                    if(LayerList.get(i).red[x][y] != -1 && LayerList.get(i).green[x][y] != -1 && LayerList.get(i).blue[x][y] != -1){
+                        red[x][y] = LayerList.get(i).red[x][y];
+                        green[x][y] = LayerList.get(i).green[x][y];
+                        blue[x][y] = LayerList.get(i).blue[x][y];
+                    }
+                }
+            }
+            
+            Debugger.log("rgb: " + red[x][y] + " " + green[x][y] + " " + blue[x][y]);
+        }
+        
+        
+    }
+        
+        
+    
+
+
 
 }

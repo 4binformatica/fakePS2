@@ -29,6 +29,8 @@ public class Editor extends BaseComponent{
     }
 
     void init(){
+        Info.width = (int)myRect.getWidth();
+        Info.height = (int)myRect.getHeight();
         setLayout(null);
         layerManager = new LayerManager();
         layerManager.addLayer(new Layer(myRect.width, myRect.height));
@@ -46,7 +48,12 @@ public class Editor extends BaseComponent{
     
     public void paint(Graphics g){
         super.paint(g);
-        g.drawImage(layerManager.getImage(), 0, 0, null);
+        try {
+            g.drawImage(layerManager.getImage(), 0, 0, null);
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        
     }
 
     public void saveEditor(){
