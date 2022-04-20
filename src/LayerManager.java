@@ -18,15 +18,11 @@ public class LayerManager {
     public void dragging(int x, int y) {
         switch (Info.selectedTool) {
             case Info.Tool.BRUSH:
-                int color = Info.c.getRGB();
-                int r = (color >> 16) & 0xFF;
-                int g = (color >> 8) & 0xFF;
-                int b = (color) & 0xFF;
                 // check if x and y are in the bounds of the layer
                 if (x >= 0 && x < LayerList.get(Info.selectedLayer).w && y >= 0
                         && y < LayerList.get(Info.selectedLayer).h) {
                     Debugger.log(x + " " + y);
-                    LayerList.get(Info.selectedLayer).drawBrush(x, y, r, g, b);
+                    LayerList.get(Info.selectedLayer).drawBrush(x, y, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue());
                 }
                 break;
         }
