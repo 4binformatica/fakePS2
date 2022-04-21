@@ -12,6 +12,7 @@ public class Info {
     static int selectedTool=0;
     static int selectedLayer=0;
 
+
     static Color defaultBackgroundColor = Color.white;
 
     //tool

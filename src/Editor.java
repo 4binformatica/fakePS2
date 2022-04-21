@@ -19,7 +19,8 @@ public class Editor extends BaseComponent{
 /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
 /* ----------------------------- INTERNAL ACCESS ---------------------------- */
     private Rectangle myRect;
-    private LayerManager layerManager;
+    public LayerManager layerManager;
+    private BufferedImage myImage;
 
 
     Editor(int x, int y, int w, int h){
@@ -29,12 +30,14 @@ public class Editor extends BaseComponent{
     }
 
     void init(){
+        myImage = new BufferedImage(myRect.width, myRect.height, BufferedImage.TYPE_INT_ARGB);
         Info.width = (int)myRect.getWidth();
         Info.height = (int)myRect.getHeight();
         setLayout(null);
-        layerManager = new LayerManager();
-        layerManager.addLayer(new Layer(myRect.width, myRect.height));
-        layerManager.addLayer(new Layer(myRect.width, myRect.height));
+        Debugger.log(myRect.width + " " + myRect.height);
+        layerManager = new LayerManager(myRect.width, myRect.height);
+        layerManager.addLayer();
+        layerManager.getImage(myImage);
         setIsHoverable(false);
         setIsRised(true);
         setIsBorderVisible(false);
@@ -49,7 +52,7 @@ public class Editor extends BaseComponent{
     public void paint(Graphics g){
         super.paint(g);
         try {
-            g.drawImage(layerManager.getImage(), 0, 0, null);
+            g.drawImage(myImage , 0, 0, null);
         } catch (Exception e) {
             //TODO: handle exception
         }
@@ -58,7 +61,7 @@ public class Editor extends BaseComponent{
 
     public void saveEditor(){
         try {
-            BufferedImage bi = layerManager.getImage();  // retrieve image
+            BufferedImage bi = myImage;  // retrieve image
             File outputfile = new File("pippo.png");
             ImageIO.write(bi, "png", outputfile);
         } catch (IOException e) {
@@ -78,8 +81,10 @@ public class Editor extends BaseComponent{
     @Override
     public void mouseDragged(MouseEvent e){
         layerManager.dragging(e.getX(), e.getY());
+        layerManager.updateImage(e.getX(), e.getY(), myImage);
         repaint();   
     }
+
 
     
 }

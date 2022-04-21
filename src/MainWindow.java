@@ -8,15 +8,18 @@ import java.awt.*;
 public class MainWindow extends JFrame implements MouseListener, MouseMotionListener{
     SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperButton b2 = new SuperButton(120, 100, 100, 100);
-    SuperButton addLayer = new SuperButton(10, 500, 600, 600);
+    SuperButton addLayer = new SuperButton(10, 600, 100, 100);
+    SuperButton changeup = new SuperButton(10, 700, 100, 100);
+    SuperButton changedown = new SuperButton(10, 800, 100, 100);
+    SuperButton reset = new SuperButton(10, 900, 100, 100);
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
     SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
     SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
-    Editor edit = new Editor(250, 100, 600, 600);
+    Editor edit = new Editor(250, 100, 1000, 1000);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
-        this.setBounds(10, 10, 1000, 1000);
+        this.setBounds(10, 10, 1500, 1500);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(50, 50, 50));
@@ -57,6 +60,47 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 edit.saveEditor();
             }
         });
+
+        addLayer.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("add layer");
+                edit.layerManager.addLayer();
+            }
+        });
+
+        changeup.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("up layer");
+                Info.selectedLayer++;
+                Debugger.log("selected layer: " + Info.selectedLayer);
+            }
+        });
+
+        changedown.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("down layer");
+                Info.selectedLayer--;
+                Debugger.log("selected layer: " + Info.selectedLayer);
+            }
+        });
+
+        reset.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                // First button actions
+                Debugger.log("down layer");
+                Info.selectedLayer= 0;
+                Debugger.log("selected layer: " + Info.selectedLayer);
+            }
+        });
+
+
 
 
         b2.addListener(new SuperButtonListenerInterface() {
@@ -123,7 +167,20 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         b2.setLabel("conferma");
         this.add(b2);
 
+        add(addLayer);
+        addLayer.setLabel("aggiungi layer");
+
+        add(changeup);
+        changeup.setLabel("up layer");
+        add(changedown);
+        changedown.setLabel("down layer");
+
+        add(reset);
+        reset.setLabel("reset");
+
+        
         this.add(sb);
+        sb.setLabel("salva");
         
         
     }
