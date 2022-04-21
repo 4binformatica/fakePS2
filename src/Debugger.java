@@ -1,7 +1,4 @@
-package Utils;
 import java.util.*;
-
-import Controller.Info;
 
 public class Debugger{
     static Date d;
@@ -11,7 +8,7 @@ public class Debugger{
     public static final String ANSI_RED = "\u001B[31m";
 
     public static boolean isEnabled(){
-        return Controller.Info.debug;
+        return Info.debug;
         
     }
 

@@ -1,17 +1,22 @@
-package Controller;
 import java.awt.*;
 
 public class Info {
+
+
+    static int width;
+    static int height;
         
-    public static Color c = Color.white;
-    public static float brushDiameter = 10;
-    public static boolean debug = true;
-    public static int selectedTool=0;
-    public static int selectedLayer=0;
-    public static int selectedColor=0;
+    static Color c = Color.blue;
+    static float brushDiameter = 10;
+    static boolean debug = true;
+    static int selectedTool=0;
+    static int selectedLayer=0;
+
+
+    static Color defaultBackgroundColor = Color.white;
 
     //tool
-    public class Tool{
+    class Tool{
         public static final int BRUSH = 0;
         public static final int ERASER = 1;
         public static final int PEN = 2;

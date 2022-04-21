@@ -1,4 +1,3 @@
-package Controller;
 //package testproject;
 
 
@@ -8,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
-import View.BaseComponent;
 
 public class SuperButton extends BaseComponent{
     

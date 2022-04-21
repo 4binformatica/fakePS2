@@ -1,4 +1,3 @@
-package Controller;
 import java.io.File;
 import javax.swing.*;
 
@@ -14,7 +13,7 @@ public class Opener {
 	/* ----------------------------- EXTERNAL ACCESS ---------------------------- */
 	public static String filePath;
 
-	public Opener() {
+	Opener() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new ImageFilter());
 		fileChooser.setAcceptAllFileFilterUsed(true);
