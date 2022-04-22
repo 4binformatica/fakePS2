@@ -51,26 +51,50 @@ public class LayerManager {
         return image;
     }
 
-    
-    //TODO: FIXME:
     private void overlapPixel(int x, int y){
         int index = x + y * myRect.width;
-        int alpha = 0;
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        for (int k = LayerList.size() - 1; k >= 0; k--) {
-            int[][] layerPixels = LayerList.get(k).color;
-            alpha += (layerPixels[x][y] >> 24) & 0xff;
-            red += (layerPixels[x][y] >> 16) & 0xff;
-            green += (layerPixels[x][y] >> 8) & 0xff;
-            blue += layerPixels[x][y] & 0xff;
+        int backColor = LayerList.get(0).color[x][y];
+        for(int i = 1; i < LayerList.size(); i++){
+            int foreColor =  LayerList.get(i).color[x][y];
+            int balpha = (backColor >> 24) & 0xff;
+            int bred = (backColor >> 16) & 0xff;
+            int bgreen = (backColor >> 8) & 0xff;
+            int bblue = backColor & 0xff;
+            int falpha = (foreColor >> 24) & 0xff;
+            int fred = (foreColor >> 16) & 0xff;
+            int fgreen = (foreColor >> 8) & 0xff;
+            int fblue = foreColor & 0xff;
+
+            int[] fc = {fred, fgreen, fblue, falpha};
+            int[] bc = {bred, bgreen, bblue, balpha};
+
+            int[] c = calculateColor(fc, bc);
+            backColor = (c[3] << 24) | (c[0] << 16) | (c[1] << 8) | c[2];
         }
-        alpha = alpha / LayerList.size();
-        red = red / LayerList.size();
-        green = green / LayerList.size();
-        blue = blue / LayerList.size();
-        pixels[index] = (alpha << 24) | (red << 16) | (green << 8) | blue;
+        pixels[index] = backColor;
+    }
+
+    public int[] calculateColor(int[] f, int[] b){
+        //calculate the sum of the color
+        int[] c = new int[4];
+        //calculate the generated color of f over b
+        for(int i = 0; i < 4; i++){
+            c[i] = (int) ((f[i] * f[3] + b[i] * (255 - f[3])) / 255);
+        }
+
+        //calculate the alpha
+        c[3] =  b[3] + f[3] - b[3] * f[3] / 255;
+        
+        //clamp the color
+        for(int i = 0; i < 3; i++){
+            if(c[i] > 255){
+                c[i] = 255;
+            }
+            else if(c[i] < 0){
+                c[i] = 0;
+            }
+        }
+        return c;
     }
 
     private void overlapLayers(){

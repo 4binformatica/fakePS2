@@ -16,7 +16,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
     SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
-    Editor edit = new Editor(250, 100, 1000, 1000);
+    Editor edit = new Editor(250, 100, 600, 600);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
         this.setBounds(10, 10, 1500, 1500);
