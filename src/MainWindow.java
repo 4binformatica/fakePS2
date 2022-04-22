@@ -15,7 +15,8 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
     SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
     SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
-    SuperSlider s4 = new SuperSlider(10, 420, 200, 20);
+    SuperSlider alpha = new SuperSlider(10, 420, 200, 20);
+    SuperSlider s4 = new SuperSlider(10, 460, 200, 20);
     Editor edit = new Editor(250, 100, 600, 600);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
@@ -30,15 +31,6 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     }
 
     private void thingsToAdd(){
-        //this.add(new CContainer(10, 10, 250, 400));
-        //this.add(new MySlider(10, 10, 500, 500));
-    	/*b1.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-    		public void mouseClicked(java.awt.event.MouseEvent evt) {
-                super.mouseClicked(evt);
-                System.out.println("ciao");
-            }
-        });*/
         b1.setLabel("seleziona file");
         this.add(b1);
 
@@ -144,6 +136,14 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 setColor();
             }
         });
+
+        alpha.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("alpha slided");
+                setColor();
+            }
+        });
         
         s1.setMin(0);
         s1.setMax(255);
@@ -158,6 +158,10 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         s3.setMax(255);
         
         this.add(s3);
+
+        alpha.setMin(0);
+        alpha.setMax(255);
+        add(alpha);
 
         s4.setMin(0);
         s4.setMax(400);
@@ -272,7 +276,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     /* ------------------------------ SLIDER EVENT ------------------------------ */
     
     private void setColor(){
-        Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
+        Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue(), (int) alpha.getValue());
         Info.brushDiameter = (float) s4.getValue();
         Debugger.log(Info.c);
     }

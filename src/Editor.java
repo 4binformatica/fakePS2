@@ -30,14 +30,14 @@ public class Editor extends BaseComponent{
     }
 
     void init(){
-        myImage = new BufferedImage(myRect.width, myRect.height, BufferedImage.TYPE_INT_ARGB);
+        layerManager = new LayerManager(myRect.width, myRect.height);
         Info.width = (int)myRect.getWidth();
         Info.height = (int)myRect.getHeight();
         setLayout(null);
         Debugger.log(myRect.width + " " + myRect.height);
-        layerManager = new LayerManager(myRect.width, myRect.height);
+        
         layerManager.addLayer();
-        layerManager.getImage(myImage);
+        layerManager.getImage();
         setIsHoverable(false);
         setIsRised(true);
         setIsBorderVisible(false);
@@ -52,7 +52,7 @@ public class Editor extends BaseComponent{
     public void paint(Graphics g){
         super.paint(g);
         try {
-            g.drawImage(myImage , 0, 0, null);
+            g.drawImage(layerManager.getImage() , 0, 0, null);
         } catch (Exception e) {
             //TODO: handle exception
         }
@@ -81,10 +81,8 @@ public class Editor extends BaseComponent{
     @Override
     public void mouseDragged(MouseEvent e){
         layerManager.dragging(e.getX(), e.getY());
-        layerManager.updateImage(e.getX(), e.getY(), myImage);
         repaint();   
     }
-
 
     
 }
