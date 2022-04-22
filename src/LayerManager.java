@@ -6,9 +6,11 @@ public class LayerManager {
     private ArrayList<Layer> LayerList = new ArrayList<>();
     private Rectangle myRect;
     private int[] pixels;
+    private BufferedImage image;
     
 
     public LayerManager(int w, int h ){
+        image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         myRect = new Rectangle(w, h);
         BufferedImage myImage;
         myImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -35,23 +37,16 @@ public class LayerManager {
         pixels[index] = color;
     }
 
-    public BufferedImage updateImage(int x, int y, BufferedImage image){
+    public BufferedImage updateImage(int x, int y){
         image.setRGB(x, y, pixels[x + y * myRect.width]);
         return image;
     }
 
-    public BufferedImage getImage(BufferedImage image) {
-        Debugger.log("getImage");
-        for (int i = 0; i < myRect.width; i++) {
-            for (int j = 0; j < myRect.height; j++) {
-                int index = i + j * myRect.width;
-                image.setRGB(i, j, pixels[index]);
-            }
-        }
-        return image;
-    }
 
     private void overlapPixel(int x, int y){
+        //return if out of bounds
+        if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
+        
         int index = x + y * myRect.width;
         int backColor = LayerList.get(0).color[x][y];
         for(int i = 1; i < LayerList.size(); i++){
@@ -72,6 +67,7 @@ public class LayerManager {
             backColor = (c[3] << 24) | (c[0] << 16) | (c[1] << 8) | c[2];
         }
         pixels[index] = backColor;
+        updateImage(x, y);
     }
 
     public int[] calculateColor(int[] f, int[] b){
@@ -107,20 +103,31 @@ public class LayerManager {
     }
 
     public void dragging(int x, int y) {
+        //return if out of bounds
+        int[] updatedPixels;
+        if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
         switch (Info.selectedTool) {
-            case Info.Tool.BRUSH:
-                // check if x and y are in the bounds of the layer
-                if (x >= 0 && x < LayerList.get(Info.selectedLayer).w && y >= 0
-                        && y < LayerList.get(Info.selectedLayer).h) {
-                    //Debugger.log(x + " " + y);
-                    LayerList.get(Info.selectedLayer).drawBrush(x, y, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
-                    
-                }
-                
-                break;
+            case Info.Tool.BRUSH:                  
+                    //drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
+                    updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
+            break;
+            default:
+                updatedPixels = new int[0];
+            break;
         }
-        overlapPixel(x, y);
+
+        for (int i = 1; i < updatedPixels.length; i+=2) {
+            overlapPixel(updatedPixels[i-1], updatedPixels[i]);
+        }
     }
+    
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+
+    
 
 
 
