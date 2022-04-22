@@ -51,17 +51,8 @@ public class LayerManager {
         int backColor = LayerList.get(0).color[x][y];
         for(int i = 1; i < LayerList.size(); i++){
             int foreColor =  LayerList.get(i).color[x][y];
-            int balpha = (backColor >> 24) & 0xff;
-            int bred = (backColor >> 16) & 0xff;
-            int bgreen = (backColor >> 8) & 0xff;
-            int bblue = backColor & 0xff;
-            int falpha = (foreColor >> 24) & 0xff;
-            int fred = (foreColor >> 16) & 0xff;
-            int fgreen = (foreColor >> 8) & 0xff;
-            int fblue = foreColor & 0xff;
-
-            int[] fc = {fred, fgreen, fblue, falpha};
-            int[] bc = {bred, bgreen, bblue, balpha};
+            int[] fc = {(foreColor >> 16) & 0xff, (foreColor >> 8) & 0xff, foreColor & 0xff, (foreColor >> 24) & 0xff};
+            int[] bc = {(backColor >> 16) & 0xff, (backColor >> 8) & 0xff, backColor & 0xff, (backColor >> 24) & 0xff};
 
             int[] c = calculateColor(fc, bc);
             backColor = (c[3] << 24) | (c[0] << 16) | (c[1] << 8) | c[2];
@@ -108,14 +99,14 @@ public class LayerManager {
         if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
         switch (Info.selectedTool) {
             case Info.Tool.BRUSH:                  
-                    //drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
-                    updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
+                updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
             break;
             default:
                 updatedPixels = new int[0];
             break;
         }
 
+        //this update the needed pixels, the form of the array is {x0, y0, x1, y1, ...}
         for (int i = 1; i < updatedPixels.length; i+=2) {
             overlapPixel(updatedPixels[i-1], updatedPixels[i]);
         }
