@@ -61,7 +61,7 @@ public class Editor extends BaseComponent{
 
     public void saveEditor(){
         try {
-            BufferedImage bi = myImage;  // retrieve image
+            BufferedImage bi = layerManager.getImage();  // retrieve image
             File outputfile = new File("pippo.png");
             ImageIO.write(bi, "png", outputfile);
         } catch (IOException e) {

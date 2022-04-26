@@ -12,11 +12,29 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperButton changeup = new SuperButton(10, 700, 100, 100);
     SuperButton changedown = new SuperButton(10, 800, 100, 100);
     SuperButton reset = new SuperButton(10, 900, 100, 100);
-    SuperSlider s1 = new SuperSlider(10, 300, 200, 20);
-    SuperSlider s2 = new SuperSlider(10, 340, 200, 20);
-    SuperSlider s3 = new SuperSlider(10, 380, 200, 20);
-    SuperSlider alpha = new SuperSlider(10, 420, 200, 20);
-    SuperSlider s4 = new SuperSlider(10, 460, 200, 20);
+    
+    //slide for r 
+    SuperSlider redS = new SuperSlider(10, 300, 200, 20);
+    //slide for g
+    SuperSlider greenS = new SuperSlider(10, 340, 200, 20);
+    //slide for b
+    SuperSlider blueS = new SuperSlider(10, 380, 200, 20);
+    //slide for a   
+    SuperSlider alphaS = new SuperSlider(10, 420, 200, 20);
+    //slide for brush size
+    SuperSlider dimS = new SuperSlider(10, 460, 200, 20);
+
+    //box for red color
+    Quadratino qr = new Quadratino(220, 300, 20, 20);
+    //box for green color
+    Quadratino qg = new Quadratino(220, 340, 20, 20);
+    //box for blue color
+    Quadratino qb = new Quadratino(220, 380, 20, 20);
+    //box for alpha color
+    Quadratino qa = new Quadratino(220, 420, 20, 20);
+    //box for the final color
+    Quadratino qtot = new Quadratino(10, 260, 20, 20);
+    
     Editor edit = new Editor(250, 100, 600, 600);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
@@ -104,69 +122,68 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
             }
         });
 
-        s1.addListener(new SuperSliderListenerInterface() {
+        redS.addListener(new SuperSliderListenerInterface() {
             @Override
             public void slide(){
-                Debugger.log("s1 slided");
-                setColor();
-
-            }
-        });
-
-        s2.addListener(new SuperSliderListenerInterface() {
-            @Override
-            public void slide(){
-                Debugger.log("s2 slided");
+                Debugger.log("redS slided");
                 setColor();
             }
         });
 
-        s3.addListener(new SuperSliderListenerInterface() {
+        greenS.addListener(new SuperSliderListenerInterface() {
             @Override
             public void slide(){
-                Debugger.log("s3 slided");
+                Debugger.log("greenS slided");
                 setColor();
             }
         });
 
-        s4.addListener(new SuperSliderListenerInterface() {
+        blueS.addListener(new SuperSliderListenerInterface() {
             @Override
             public void slide(){
-                Debugger.log("s4 slided");
+                Debugger.log("blueS slided");
                 setColor();
             }
         });
 
-        alpha.addListener(new SuperSliderListenerInterface() {
+        dimS.addListener(new SuperSliderListenerInterface() {
             @Override
             public void slide(){
-                Debugger.log("alpha slided");
+                Debugger.log("dimS slided");
+                setColor();
+            }
+        });
+
+        alphaS.addListener(new SuperSliderListenerInterface() {
+            @Override
+            public void slide(){
+                Debugger.log("alphaS slided");
                 setColor();
             }
         });
         
-        s1.setMin(0);
-        s1.setMax(255);
-        this.add(s1);
+        redS.setMin(0);
+        redS.setMax(255);
+        this.add(redS);
 
-        s2.setMin(0);
-        s2.setMax(255);
+        greenS.setMin(0);
+        greenS.setMax(255);
         
-        this.add(s2);
+        this.add(greenS);
 
-        s3.setMin(0);
-        s3.setMax(255);
+        blueS.setMin(0);
+        blueS.setMax(255);
         
-        this.add(s3);
+        this.add(blueS);
 
-        alpha.setMin(0);
-        alpha.setMax(255);
-        add(alpha);
+        alphaS.setMin(0);
+        alphaS.setMax(255);
+        add(alphaS);
 
-        s4.setMin(0);
-        s4.setMax(400);
+        dimS.setMin(1);
+        dimS.setMax(100);
         
-        this.add(s4);
+        this.add(dimS);
         this.add(edit);
         b2.setLabel("conferma");
         this.add(b2);
@@ -185,6 +202,12 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         
         this.add(sb);
         sb.setLabel("salva");
+
+        this.add(qr);   
+        this.add(qg);
+        this.add(qb);
+        this.add(qa);
+        this.add(qtot);
         
         
     }
@@ -202,12 +225,12 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
             System.out.println(Opener.getFilePath());
             edit.setImgPath(Opener.getFilePath());
         }
-        if(e.getComponent() == s1 ||e.getComponent() == s2 ||e.getComponent() == s3){
-            Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
+        if(e.getComponent() == redS ||e.getComponent() == greenS ||e.getComponent() == blueS){
+            Info.c = new Color((int) redS.getValue(), (int) greenS.getValue(),(int) blueS.getValue());
         }
 
-        if(e.getComponent() == s4){
-            Info.brushDiameter = (float)s4.getValue();
+        if(e.getComponent() == dimS){
+            Info.brushDiameter = (float)dimS.getValue();
         } */
         
     }
@@ -238,11 +261,11 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        /* if(e.getComponent() == s1 ||e.getComponent() == s2 ||e.getComponent() == s3){
-            Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue());
+        /* if(e.getComponent() == redS ||e.getComponent() == greenS ||e.getComponent() == blueS){
+            Info.c = new Color((int) redS.getValue(), (int) greenS.getValue(),(int) blueS.getValue());
         }
-        if(e.getComponent() == s4){
-            Info.brushDiameter = (float)s4.getValue();
+        if(e.getComponent() == dimS){
+            Info.brushDiameter = (float)dimS.getValue();
         } */
     }
 
@@ -276,8 +299,33 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     /* ------------------------------ SLIDER EVENT ------------------------------ */
     
     private void setColor(){
-        Info.c = new Color((int) s1.getValue(), (int) s2.getValue(),(int) s3.getValue(), (int) alpha.getValue());
-        Info.brushDiameter = (float) s4.getValue();
+        /* qr.setColor(((int)redS.getValue() << 16) | (0 << 8) | 0); //red
+        qg.setColor((0 << 16) | ((int)greenS.getValue() << 8) | 0); //green
+        qb.setColor((0 << 16) | (0 << 8) | ((int)blueS.getValue())); //blue
+        qa.setColor(((int)alphaS.getValue() << 24) | (255 << 16) | (255 << 8) | (255)); //alphaS
+        qtot.setColor(((int)alphaS.getValue() << 24) | ((int)redS.getValue() << 16) | ((int)greenS.getValue() << 8) | ((int)blueS.getValue())); //tot */
+
+        int r = (255 << 24) | ((int)redS.getValue() << 16) | (0 << 8) | 0;
+
+        int g = (255 << 24) | (0 << 16) | ((int)greenS.getValue() << 8) | 0;
+
+        int b = (255 << 24) | (0 << 16) | (0 << 8) | (int)blueS.getValue();
+
+        int a = (255 << 24) | ((int)alphaS.getValue() << 16) | ((int)alphaS.getValue() << 8) | (int)alphaS.getValue();
+
+        int tot = (255 << 24) | ((int)redS.getValue() << 16) | ((int)greenS.getValue() << 8) | (int)blueS.getValue();
+
+
+        qr.setColor(r);
+        qg.setColor(g);
+        qb.setColor(b);
+        qa.setColor(a);
+        qtot.setColor(tot);
+
+
+
+        Info.c = new Color((int) redS.getValue(), (int) greenS.getValue(),(int) blueS.getValue(), (int) alphaS.getValue());
+        Info.brushDiameter = (float) dimS.getValue();
         Debugger.log(Info.c);
     }
 
