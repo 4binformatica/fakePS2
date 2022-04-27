@@ -4,8 +4,8 @@
 
 ## Features
 
-- Color everything you want with argb color
-- Use layer for create your perfeact levelled image
+- Color everything you want with ARGB color
+- Use layer for create your perfect labelled image
 - Save your fantastic pippo.png
 
 
