@@ -1,5 +1,4 @@
-import javax.swing.JPanel;
-import java.awt.*;
+
 
 public class Layer{
 
@@ -11,7 +10,8 @@ public class Layer{
     /* ----------------------------- EXTERNAL ACCESS ---------------------------- */
     int w;
     int h;
-    boolean isVisible;
+    boolean isVisible = true;
+    String name;
     int[][] color;
 
     /* ----------------------------- INTERNAL ACCES ----------------------------- */

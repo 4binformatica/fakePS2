@@ -50,7 +50,9 @@ public class LayerManager {
         int index = x + y * myRect.width;
         int backColor = LayerList.get(0).color[x][y];
         for(int i = 1; i < LayerList.size(); i++){
-            int foreColor =  LayerList.get(i).color[x][y];
+            Layer current = LayerList.get(i);
+            if(!current.isVisible) continue;
+            int foreColor =  current.color[x][y];
             int[] fc = {(foreColor >> 16) & 0xff, (foreColor >> 8) & 0xff, foreColor & 0xff, (foreColor >> 24) & 0xff};
             int[] bc = {(backColor >> 16) & 0xff, (backColor >> 8) & 0xff, backColor & 0xff, (backColor >> 24) & 0xff};
 
