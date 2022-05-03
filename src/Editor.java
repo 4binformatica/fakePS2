@@ -2,7 +2,6 @@
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -82,7 +81,5 @@ public class Editor extends BaseComponent{
     public void mouseDragged(MouseEvent e){
         layerManager.dragging(e.getX(), e.getY());
         repaint();   
-    }
-
-    
+    }  
 }

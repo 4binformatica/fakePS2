@@ -4,7 +4,8 @@ import javax.swing.JFrame;
 import java.awt.event.*;
 //import javax.swing.JLabel;
 import java.awt.*;
-
+//import image icon
+import javax.swing.ImageIcon;
 public class MainWindow extends JFrame implements MouseListener, MouseMotionListener{
     SuperButton b1 = new SuperButton(10, 100, 100, 100);
     SuperButton b2 = new SuperButton(120, 100, 100, 100);
@@ -12,6 +13,10 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperButton changeup = new SuperButton(10, 700, 100, 100);
     SuperButton changedown = new SuperButton(10, 800, 100, 100);
     SuperButton reset = new SuperButton(10, 900, 100, 100);
+
+    
+    //ceckbox test
+    CeckBox cb1 = new CeckBox(10, 10, 30, 30);
     
     //slide for r 
     SuperSlider redS = new SuperSlider(10, 300, 200, 20);
@@ -36,13 +41,17 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     Quadratino qtot = new Quadratino(10, 260, 20, 20);
     
     Editor edit = new Editor(250, 100, 600, 600);
+    //layerui test
+    LayerVisualization lv = new LayerVisualization(edit.layerManager, 900, 10, 100, 900);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
         this.setBounds(10, 10, 1500, 1500);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(50, 50, 50));
-        this.setTitle("Paint");
+        this.setTitle("FakePS2");
+        this.setIconImage(new ImageIcon("src\\assets\\icon.jpeg").getImage());
+
         this.thingsToAdd();
         this.setVisible(true);
         this.setResizable(false);
@@ -68,7 +77,9 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 // First button actions
                 Debugger.log("sb clicked");
                 edit.saveEditor();
+                
             }
+                
         });
 
         addLayer.addListener(new SuperButtonListenerInterface() {
@@ -77,6 +88,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 // First button actions
                 Debugger.log("add layer");
                 edit.layerManager.addLayer();
+                lv.updateLayerVisualization();
             }
         });
 
@@ -209,7 +221,9 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         this.add(qa);
         this.add(qtot);
         
-        
+
+        this.add(cb1);
+        this.add(lv);
     }
     
 
@@ -267,6 +281,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         if(e.getComponent() == dimS){
             Info.brushDiameter = (float)dimS.getValue();
         } */
+        lv.updateLayerVisualization();
     }
 
     @Override
