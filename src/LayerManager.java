@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.awt.image.*;
 import java.awt.Rectangle;
+import java.awt.Point;
 
 public class LayerManager {
-    private ArrayList<Layer> LayerList = new ArrayList<>();
+    public ArrayList<Layer> LayerList = new ArrayList<>();
     private Rectangle myRect;
     private int[] pixels;
     private BufferedImage image;
@@ -48,11 +49,11 @@ public class LayerManager {
         if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
         
         int index = x + y * myRect.width;
-        int backColor = LayerList.get(0).color[x][y];
+        int backColor = LayerList.get(0).color[y][x];
         for(int i = 1; i < LayerList.size(); i++){
             Layer current = LayerList.get(i);
             if(!current.isVisible) continue;
-            int foreColor =  current.color[x][y];
+            int foreColor =  current.color[y][x];
             int[] fc = {(foreColor >> 16) & 0xff, (foreColor >> 8) & 0xff, foreColor & 0xff, (foreColor >> 24) & 0xff};
             int[] bc = {(backColor >> 16) & 0xff, (backColor >> 8) & 0xff, backColor & 0xff, (backColor >> 24) & 0xff};
 
@@ -96,31 +97,69 @@ public class LayerManager {
     }
 
     public void dragging(int x, int y) {
+        
         //return if out of bounds
-        int[] updatedPixels;
+        ArrayList<Point> updatedPixels = new ArrayList<Point>();
+
+        
         if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
         switch (Info.selectedTool) {
             case Info.Tool.BRUSH:                  
                 updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
             break;
+            case Info.Tool.ERASER:
+                updatedPixels = LayerList.get(Info.selectedLayer).eraseCircle(x, y, (int)Info.brushDiameter);
+            break;
             default:
-                updatedPixels = new int[0];
+                updatedPixels = new ArrayList<Point>();
             break;
         }
 
-        //this update the needed pixels, the form of the array is {x0, y0, x1, y1, ...}
-        for (int i = 1; i < updatedPixels.length; i+=2) {
-            overlapPixel(updatedPixels[i-1], updatedPixels[i]);
+        for (int i = 0; i < updatedPixels.size(); i++) {
+            overlapPixel(updatedPixels.get(i).x, updatedPixels.get(i).y);
         }
     }
+
+    public void clicking(int x, int y) {
+        //return if out of bounds
+        ArrayList<Point> updatedPixels = new ArrayList<Point>();;
+        if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
+        switch (Info.selectedTool) {
+            case Info.Tool.FILL:
+                updatedPixels = LayerList.get(Info.selectedLayer).fill(x, y, 1, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
+            break;
+            default:
+                updatedPixels = new ArrayList<Point>();
+            break;
+        }
+
+        for (int i = 0; i < updatedPixels.size(); i++) {
+            overlapPixel(updatedPixels.get(i).x, updatedPixels.get(i).y);
+        }
+    }
+
     
 
     public BufferedImage getImage() {
         return image;
     }
 
+    public BufferedImage getSingleImage(int layer){
+        BufferedImage myImage;
+        myImage = new BufferedImage(myRect.width, myRect.height, BufferedImage.TYPE_INT_ARGB);
+        int[] pixels = ((DataBufferInt) myImage.getRaster().getDataBuffer()).getData();
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] = 0xffffffff;
+        }
+        for (int i = 0; i < myRect.width; i++) {
+            for (int j = 0; j < myRect.height; j++) {
+                int index = i + j * myRect.width;
+                pixels[index] = LayerList.get(layer).color[j][i];
+            }
+        }
+        return myImage;
+    }
 
-    
 
 
 
