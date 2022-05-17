@@ -42,7 +42,6 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     
     Editor edit = new Editor(250, 100, 600, 600);
     //layerui test
-    LayerVisualization lv = new LayerVisualization(edit.layerManager, 900, 10, 100, 900);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
         this.setBounds(10, 10, 1500, 1500);
@@ -88,7 +87,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 // First button actions
                 Debugger.log("add layer");
                 edit.layerManager.addLayer();
-                lv.updateLayerVisualization();
+                //lv.updateLayerVisualization();
             }
         });
 
@@ -223,7 +222,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         
 
         this.add(cb1);
-        this.add(lv);
+        //this.add(lv);
     }
     
 
@@ -281,7 +280,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         if(e.getComponent() == dimS){
             Info.brushDiameter = (float)dimS.getValue();
         } */
-        lv.updateLayerVisualization();
+        //lv.updateLayerVisualization();
     }
 
     @Override

@@ -79,7 +79,15 @@ public class Editor extends BaseComponent{
 
     @Override
     public void mouseDragged(MouseEvent e){
+        super.mouseDragged(e);
         layerManager.dragging(e.getX(), e.getY());
         repaint();   
-    }  
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        super.mousePressed(e);
+        Debugger.log("P0 setted");
+        layerManager.setP0(e.getX(), e.getY());
+    }
 }
