@@ -1,6 +1,7 @@
 import java.awt.Point;
 import java.awt.image.*;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Layer{
 
@@ -102,18 +103,52 @@ public class Layer{
     private ArrayList<Point> makeSelection(int x, int y, int tollerance){
         ArrayList<Point> points = new ArrayList<>();
         int[][] bounds = makeBinaryMatrix(x, y, tollerance);
-        selectOnlyInnerPoints(x, y, bounds, points);
+        floodFill(x, y, bounds, points);
         return points;
     }
 
+    /* public void riempiR(int[][] b, int x, int y, long coloreIniziale)
+    {
+        if (b[y][x]==0)
+           return;
+        if (sonoUnBordo(x,y,coloreIniziale))
+           return;
+        points[y][x] = coloreDesiderato;
+
+        pw larghezza Pattern
+        pattern[][x%pw]
+
+        b[y][x] = 0;
+        
+        riempiR(b, x+1, y, coloreIniziale);
+        riempiR(b, x-1, y, coloreIniziale);
+        riempiR(b, x, y+1, coloreIniziale);
+        riempiR(b, x, y-1, coloreIniziale);
+
+    }
+
+    public void riempi(int x, int y)
+    {
+        Colore coloreIniziale = pixel[y][x];
+        riempiR(x,y,coloreIniziale)
+    } */
+
     
-    private void selectOnlyInnerPoints(int x, int y, int[][] m, ArrayList<Point> p){
-        p.add(new Point(x, y));
-        m[y][x] = 0;
-        if (x - 1 >= 0 && m[y][x - 1] == 1) selectOnlyInnerPoints(x - 1, y, m, p);
-        if (x + 1 < w && m[y][x + 1] == 1) selectOnlyInnerPoints(x + 1, y, m, p);
-        if (y - 1 >= 0 && m[y - 1][x] == 1) selectOnlyInnerPoints(x, y - 1, m, p);
-        if (y + 1 < h && m[y + 1][x] == 1) selectOnlyInnerPoints(x, y + 1, m, p);
+    
+    
+
+    private void floodFill(int x, int y, int[][] bounds, ArrayList<Point> points){
+        if(x < 0 || x >= w || y < 0 || y >= h) return;
+        if (bounds[y][x] == 0)
+            return;
+        if (points.contains(new Point(x, y)))
+            return;
+        points.add(new Point(x, y));
+        bounds[y][x] = 0;
+        floodFill(x + 1, y, bounds, points);
+        floodFill(x - 1, y, bounds, points);
+        floodFill(x, y + 1, bounds, points);
+        floodFill(x, y - 1, bounds, points);
     }
 
     
@@ -137,14 +172,4 @@ public class Layer{
         }
         return bounds;
     }
-
-
-
-    
-
-
-    
-    
-    
-
 }
