@@ -8,8 +8,6 @@ public class LayerManager {
     private Rectangle myRect;
     private int[] pixels;
     private BufferedImage image;
-
-    private Point p0, p1;
     
 
     public LayerManager(int w, int h ){
@@ -99,59 +97,25 @@ public class LayerManager {
     }
 
     public void dragging(int x, int y) {
-        ArrayList<Point> updatedPixels;
-        ArrayList<Point> interPoints = new ArrayList<Point>();
-
-        p1 = new Point(x, y);
-        //the points are vertical or horizontal
-        if(p0.x == p1.x){
-            for(int i = p0.x; i <= p1.x; i++){
-                interPoints.add(new Point(i, p0.y));
-            }
-        } else if(p0.y == p1.y){
-            for(int i = p0.y; i <= p1.y; i++){
-                interPoints.add(new Point(p0.x, i));
-            }
-        } else {
-            //the points are diagonal
-            //calculate the slope
-            double slope = (double)(p1.y - p0.y) / (double)(p1.x - p0.x);
-            if(slope <= 1 && slope >= -1){
-                //the slope is between -1 and 1
-                //the points are horizontal
-                for(int i = p0.x; i <= p1.x; i++){
-                    interPoints.add(new Point(i, (int)(p0.y + slope * (i - p0.x))));
-                }
-            } else if (slope > 1 || slope < -1){
-                //the slope is between -1 and 1
-                //the points are vertical
-                for(int i = p0.y; i <= p1.y; i++){
-                    interPoints.add(new Point((int)(-(p0.y - (p0.x * slope) - i) / slope), i));
-                }
-            }
-        }
-
-
-        for(Point p : interPoints){
         //return if out of bounds
-            if(p.x < 0 || p.x >= myRect.width || p.y < 0 || p.y >= myRect.height) return;
-            switch (Info.selectedTool) {
-                case Info.Tool.BRUSH:
-                    updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(p.x, p.y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
-                break;
-                case Info.Tool.ERASER:
-                    updatedPixels = LayerList.get(Info.selectedLayer).eraseCircle(p.x, p.y, (int)Info.brushDiameter);
-                break;
-                default:
-                    updatedPixels = new ArrayList<Point>();
-                break;
-            }
-
-            for (int i = 0; i < updatedPixels.size(); i++) {
-                overlapPixel(updatedPixels.get(i).x, updatedPixels.get(i).y);
-            }
+        ArrayList<Point> updatedPixels;
+        
+        if(x < 0 || x >= myRect.width || y < 0 || y >= myRect.height) return;
+        switch (Info.selectedTool) {
+            case Info.Tool.BRUSH:                  
+                updatedPixels = LayerList.get(Info.selectedLayer).drawCircle(x, y, (int)Info.brushDiameter, Info.c.getRed(), Info.c.getGreen(), Info.c.getBlue(), Info.c.getAlpha());
+            break;
+            case Info.Tool.ERASER:
+                updatedPixels = LayerList.get(Info.selectedLayer).eraseCircle(x, y, (int)Info.brushDiameter);
+            break;
+            default:
+                updatedPixels = new ArrayList<Point>();
+            break;
         }
-        setP0(p1.x, p1.y);
+
+        for (int i = 0; i < updatedPixels.size(); i++) {
+            overlapPixel(updatedPixels.get(i).x, updatedPixels.get(i).y);
+        }
     }
     
 
@@ -177,9 +141,7 @@ public class LayerManager {
 
     
 
-    public void setP0(int x, int y) {
-        p0 = new Point(x, y);
-    }
+
 
 
 }
