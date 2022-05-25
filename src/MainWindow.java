@@ -12,6 +12,7 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     SuperButton addLayer = new SuperButton(10, 600, 100, 100);
     SuperButton changeup = new SuperButton(10, 700, 100, 100);
     SuperButton changedown = new SuperButton(10, 800, 100, 100);
+    SuperButton changeTool = new SuperButton(120, 600, 100, 100);
     SuperButton reset = new SuperButton(10, 900, 100, 100);
 
     
@@ -42,7 +43,6 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
     
     Editor edit = new Editor(250, 100, 600, 600);
     //layerui test
-    LayerVisualization lv = new LayerVisualization(edit.layerManager, 900, 10, 100, 900);
     SuperButton sb = new SuperButton(10, 500, 100, 100);
     public MainWindow(){
         this.setBounds(10, 10, 1500, 1500);
@@ -88,7 +88,6 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 // First button actions
                 Debugger.log("add layer");
                 edit.layerManager.addLayer();
-                lv.updateLayerVisualization();
             }
         });
 
@@ -173,6 +172,18 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
                 setColor();
             }
         });
+
+        changeTool.addListener(new SuperButtonListenerInterface() {
+            @Override
+            public void click() {
+                Debugger.log("change tool");
+                if(Info.selectedTool == Info.Tool.BRUSH) {
+                    Info.selectedTool = Info.Tool.FILL;
+                } else {
+                    Info.selectedTool = Info.Tool.BRUSH;
+                }
+            }
+        });
         
         redS.setMin(0);
         redS.setMax(255);
@@ -223,7 +234,9 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         
 
         this.add(cb1);
-        this.add(lv);
+
+        changeTool.setLabel("cambia tool");
+        this.add(changeTool);
     }
     
 
@@ -281,7 +294,6 @@ public class MainWindow extends JFrame implements MouseListener, MouseMotionList
         if(e.getComponent() == dimS){
             Info.brushDiameter = (float)dimS.getValue();
         } */
-        lv.updateLayerVisualization();
     }
 
     @Override

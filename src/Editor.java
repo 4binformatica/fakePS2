@@ -43,7 +43,7 @@ public class Editor extends BaseComponent{
         setShowImg(true);
         setIsInteractive(false);
         addMouseMotionListener(this);
-        addMouseListener(this);        
+        addMouseListener(this);
     }
 
     
@@ -81,5 +81,13 @@ public class Editor extends BaseComponent{
     public void mouseDragged(MouseEvent e){
         layerManager.dragging(e.getX(), e.getY());
         repaint();   
-    }  
+    } 
+
+    
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        super.mousePressed(e);
+        layerManager.clicking(e.getX(), e.getY());
+    }
 }

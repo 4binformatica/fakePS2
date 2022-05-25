@@ -1,6 +1,7 @@
 import java.awt.Point;
 import java.awt.image.*;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Layer{
 
@@ -82,6 +83,15 @@ public class Layer{
         return updatedPixels;
     }
 
+    public ArrayList<Point> fill(int x, int y, int t, int red, int green, int blue, int alpha){
+        ArrayList<Point> updatedPixels = makeSelection(x, y, t);
+        for (Point p : updatedPixels) {
+            setPixel(p.x, p.y, red, green, blue, alpha);
+        }
+        return updatedPixels;
+        
+    }
+
     public ArrayList<Point> eraseCircle(int x, int y, int r){
         return drawCircle(x, y, r, 0, 0, 0, 0);
     }
@@ -90,8 +100,76 @@ public class Layer{
         return name;
     }
 
+    private ArrayList<Point> makeSelection(int x, int y, int tollerance){
+        ArrayList<Point> points = new ArrayList<>();
+        int[][] bounds = makeBinaryMatrix(x, y, tollerance);
+        floodFill(x, y, bounds, points);
+        return points;
+    }
+
+    /* public void riempiR(int[][] b, int x, int y, long coloreIniziale)
+    {
+        if (b[y][x]==0)
+           return;
+        if (sonoUnBordo(x,y,coloreIniziale))
+           return;
+        points[y][x] = coloreDesiderato;
+
+        pw larghezza Pattern
+        pattern[][x%pw]
+
+        b[y][x] = 0;
+        
+        riempiR(b, x+1, y, coloreIniziale);
+        riempiR(b, x-1, y, coloreIniziale);
+        riempiR(b, x, y+1, coloreIniziale);
+        riempiR(b, x, y-1, coloreIniziale);
+
+    }
+
+    public void riempi(int x, int y)
+    {
+        Colore coloreIniziale = pixel[y][x];
+        riempiR(x,y,coloreIniziale)
+    } */
+
     
     
     
 
+    private void floodFill(int x, int y, int[][] bounds, ArrayList<Point> points){
+        if(x < 0 || x >= w || y < 0 || y >= h) return;
+        if (bounds[y][x] == 0)
+            return;
+        if (points.contains(new Point(x, y)))
+            return;
+        points.add(new Point(x, y));
+        bounds[y][x] = 0;
+        floodFill(x + 1, y, bounds, points);
+        floodFill(x - 1, y, bounds, points);
+        floodFill(x, y + 1, bounds, points);
+        floodFill(x, y - 1, bounds, points);
+    }
+
+    
+
+    private int[][] makeBinaryMatrix(int x, int y, int tollerance){
+        int[][] bounds = new int[h][w];
+        int sc = color[y][x];
+        int sr = (sc >> 16) & 0xFF;
+        int sg = (sc >> 8) & 0xFF;
+        int sb = sc & 0xFF;
+        for(int i = 0; i < w; i++){
+            for(int j = 0; j < h; j++){
+                int c = color[j][i];
+                int r = (c >> 16) & 0xFF;
+                int g = (c >> 8) & 0xFF;
+                int b = c & 0xFF;
+                if(Math.abs(sr - r) <= tollerance && Math.abs(sg - g) <= tollerance && Math.abs(sb - b) <= tollerance){
+                    bounds[j][i] = 1;
+                }
+            }
+        }
+        return bounds;
+    }
 }
