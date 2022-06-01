@@ -1,7 +1,6 @@
 import java.awt.Point;
 import java.awt.image.*;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class Layer{
 
@@ -17,9 +16,10 @@ public class Layer{
     String name;
     int[][] color;
     BufferedImage image;
+   
 
     /* ----------------------------- INTERNAL ACCES ----------------------------- */
-
+    
 
     public Layer(int w, int h, int r, int g, int b, int a){
         init(w, h, r, g, b, a);
@@ -138,13 +138,13 @@ public class Layer{
     
 
     private void floodFill(int x, int y, int[][] bounds, ArrayList<Point> points){
-        if(x < 0 || x >= w || y < 0 || y >= h) return;
-        if (bounds[y][x] == 0)
-            return;
-        if (points.contains(new Point(x, y)))
+        //if(x < 0 || x >= w - 1|| y < 0 || y >= h - 1) return;
+        if (bounds[y][x] == 1)
             return;
         points.add(new Point(x, y));
-        bounds[y][x] = 0;
+        bounds[y][x] = 1;
+        //tot++;
+        //System.out.println(tot);
         floodFill(x + 1, y, bounds, points);
         floodFill(x - 1, y, bounds, points);
         floodFill(x, y + 1, bounds, points);
@@ -154,20 +154,39 @@ public class Layer{
     
 
     private int[][] makeBinaryMatrix(int x, int y, int tollerance){
-        int[][] bounds = new int[h][w];
+        int[][] bounds = new int[h + 2][w + 2];
+        
+        
+        for(int i=0; i<h+2; i++)
+        {
+           bounds[i][0] = 1;
+           bounds[i][w+1] = 1;
+        }
+        for(int j=0; j<w+2; j++)
+        {
+           bounds[0][j] = 1;
+           bounds[h+1][j] = 1;
+        }
+
         int sc = color[y][x];
         int sr = (sc >> 16) & 0xFF;
         int sg = (sc >> 8) & 0xFF;
         int sb = sc & 0xFF;
-        for(int i = 0; i < w; i++){
-            for(int j = 0; j < h; j++){
+        int vscolor = (sr+sg+sb)/3;
+        for(int i = 1; i < w -1; i++){
+            for(int j = 1; j < h - 1; j++){
                 int c = color[j][i];
                 int r = (c >> 16) & 0xFF;
                 int g = (c >> 8) & 0xFF;
                 int b = c & 0xFF;
+                int vcolor = (r+g+b)/3;
+                if(Math.abs(vcolor - vscolor) > tollerance)
+                    bounds[j][i] = 1;
+/*
                 if(Math.abs(sr - r) <= tollerance && Math.abs(sg - g) <= tollerance && Math.abs(sb - b) <= tollerance){
                     bounds[j][i] = 1;
                 }
+                */
             }
         }
         return bounds;
